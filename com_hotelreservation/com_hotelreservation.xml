@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="5.0" method="upgrade">
+    <name>com_hotelreservation</name>
+    <namespace>Jules\Component\HotelReservation</namespace>
+    <author>Jules</author>
+    <creationDate>2025-08-14</creationDate>
+    <copyright>Copyright (C) 2025. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>jules@example.com</authorEmail>
+    <authorUrl>www.example.com</authorUrl>
+    <version>1.0.0</version>
+    <description>Hotel Room Reservation Component</description>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">admin/sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
+    <files folder="site">
+        <folder>src</folder>
+        <folder>tmpl</folder>
+        <folder>language</folder>
+    </files>
+
+    <media destination="com_hotelreservation" folder="media">
+        <folder>css</folder>
+        <folder>js</folder>
+    </media>
+
+    <administration>
+        <menu>COM_HOTELRESERVATION_MENU</menu>
+        <files folder="admin">
+            <folder>src</folder>
+            <folder>sql</folder>
+            <folder>tmpl</folder>
+            <folder>language</folder>
+        </files>
+    </administration>
+
+</extension>
