@@ -29,3 +29,5 @@ RUN curl -o joomla.tar.gz -SL ${JOOMLA_DOWNLOAD_URL} \
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
+RUN find /var/www/html -type d -exec chmod 755 {} \;
+RUN find /var/www/html -type f -exec chmod 644 {} \;
