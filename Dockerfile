@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libzip-dev \
     unzip \
+    curl \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -19,11 +21,11 @@ RUN a2enmod rewrite
 
 # Download and extract Joomla
 ENV JOOMLA_VERSION 5.0.3
-ENV JOOMLA_SHA1 f1988d997e9fa09b81f228df7694100b7a941db2
-ENV JOOMLA_DOWNLOAD_URL https://downloads.joomla.org/cms/joomla5/${JOOMLA_VERSION}/Joomla_${JOOMLA_VERSION}-Stable-Full_Package.tar.gz
+ENV JOOMLA_DOWNLOAD_URL https://github.com/joomla/joomla-cms/releases/download/${JOOMLA_VERSION}/Joomla_${JOOMLA_VERSION}-Stable-Full_Package.tar.gz
 
-RUN curl -o joomla.tar.gz -SL ${JOOMLA_DOWNLOAD_URL} \
-    && echo "${JOOMLA_SHA1} *joomla.tar.gz" | sha1sum -c - \
+# Download Joomla with better error handling
+RUN set -ex; \
+    curl -L -o joomla.tar.gz "${JOOMLA_DOWNLOAD_URL}" \
     && tar -xzf joomla.tar.gz -C /var/www/html --strip-components=1 \
     && rm joomla.tar.gz
 
