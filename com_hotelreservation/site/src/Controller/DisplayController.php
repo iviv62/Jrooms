@@ -1,5 +1,5 @@
 <?php
-namespace Jules\Component\HotelReservation\Site\Controller;
+namespace Joomla\Component\HotelReservation\Site\Controller;
 
 defined('_JEXEC') or die;
 

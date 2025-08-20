@@ -16,13 +16,13 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
-use Jules\Component\HotelReservation\Administrator\Extension\HotelReservationComponent;
+use Joomla\Component\HotelReservation\Administrator\Extension\HotelReservationComponent;
 
 return new class implements ServiceProviderInterface {
     public function register(Container $container)
     {
         // Register dispatcher factory with the PHP namespace of the component (per J5 API)
-        $container->registerServiceProvider(new ComponentDispatcherFactory('Jules\\Component\\HotelReservation'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('Joomla\\Component\\HotelReservation'));
         $container->registerServiceProvider(new MVCFactoryProvider('com_hotelreservation'));
 
         $container->set(
