@@ -1,0 +1,18 @@
+# Joomla basic .htaccess
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+DirectoryIndex index.php
+
+# Route non-existing files/directories to the front controller
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+</IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "(\.ini|\.phps|\.fla|\.psd|\.log|(?i)configuration\.php-dist)$">
+  Require all denied
+</FilesMatch>
+

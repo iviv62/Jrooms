@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libzip-dev \
     unzip \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -17,15 +18,36 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Enable apache mod_rewrite
 RUN a2enmod rewrite
 
-# Download and extract Joomla
-ENV JOOMLA_VERSION 5.0.3
-ENV JOOMLA_SHA1 f1988d997e9fa09b81f228df7694100b7a941db2
-ENV JOOMLA_DOWNLOAD_URL https://downloads.joomla.org/cms/joomla5/${JOOMLA_VERSION}/Joomla_${JOOMLA_VERSION}-Stable-Full_Package.tar.gz
+# Configure Apache for Joomla
+RUN echo 'ServerName localhost\n\
+\n\
+<VirtualHost *:80>\n\
+    DocumentRoot /var/www/html\n\
+    ServerName localhost\n\
+    \n\
+    <Directory /var/www/html>\n\
+        Options Indexes FollowSymLinks\n\
+        AllowOverride All\n\
+        Require all granted\n\
+        DirectoryIndex index.php index.html\n\
+    </Directory>\n\
+    \n\
+    <FilesMatch "\.(php|html|htm)$">\n\
+        Require all granted\n\
+    </FilesMatch>\n\
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf \
+    && a2ensite 000-default
 
-RUN curl -o joomla.tar.gz -SL ${JOOMLA_DOWNLOAD_URL} \
-    && echo "${JOOMLA_SHA1} *joomla.tar.gz" | sha1sum -c - \
-    && tar -xzf joomla.tar.gz -C /var/www/html --strip-components=1 \
-    && rm joomla.tar.gz
+# Download and extract Joomla (Full Package ZIP includes vendor assets)
+ENV JOOMLA_VERSION 5.0.3
+ENV JOOMLA_DOWNLOAD_URL https://github.com/joomla/joomla-cms/releases/download/${JOOMLA_VERSION}/Joomla_${JOOMLA_VERSION}-Stable-Full_Package.zip
+
+RUN curl -L -o joomla.zip "${JOOMLA_DOWNLOAD_URL}" \
+    && unzip -q joomla.zip -d /var/www/html \
+    && rm joomla.zip
+
+# Copy Joomla .htaccess
+COPY joomla.htaccess /var/www/html/.htaccess
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
