@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="5.0" method="upgrade">
     <name>com_hotelreservation</name>
-    <namespace>Jules\Component\HotelReservation</namespace>
+    <namespace>Joomla\Component\HotelReservation</namespace>
     <author>Jules</author>
     <creationDate>2025-08-14</creationDate>
     <copyright>Copyright (C) 2025. All rights reserved.</copyright>
@@ -28,7 +28,7 @@
         <folder>js</folder>
     </media>
 
-    <administration component="Jules\\Component\\HotelReservation\\Administrator\\Extension\\HotelReservationComponent">
+    <administration component="Joomla\\Component\\HotelReservation\\Administrator\\Extension\\HotelReservationComponent">
         <menu link="index.php?option=com_hotelreservation">COM_HOTELRESERVATION_MENU</menu>
         <files folder="admin">
             <folder>services</folder>
